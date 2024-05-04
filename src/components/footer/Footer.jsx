@@ -1,7 +1,14 @@
-const Footer = () => {
-    return (
-        <div>Footer</div>
-    )
-}
+import styles from "./footer.module.css";
 
-export default Footer
+const Footer = () => {
+  return (
+    <div className={styles.container}>
+      <div className={styles.logo}>Bookwiz</div>
+      <div className={styles.text}>
+        Bookwiz Bookclub © All rights reserved.
+      </div>
+    </div>
+  );
+};
+
+export default Footer;
