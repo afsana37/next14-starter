@@ -3,8 +3,6 @@
 # Run the Jest tests
 echo "Running tests before pushing..."
 npm run test
-
-# Capture the exit code of the test command
 TEST_RESULT=$?
 
 if [ $TEST_RESULT -ne 0 ]; then
@@ -12,5 +10,15 @@ if [ $TEST_RESULT -ne 0 ]; then
   exit 1
 fi
 
-echo "All tests passed, proceeding with push."
+# Run the Next.js lint command
+echo "Running lint before pushing..."
+npm run lint
+LINT_RESULT=$?
+
+if [ $LINT_RESULT -ne 0 ]; then
+  echo "Linting failed, aborting push."
+  exit 1
+fi
+
+echo "All tests and linting passed, proceeding with push."
 exit 0
