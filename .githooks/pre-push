@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# Run the Jest tests
+echo "Running tests before pushing..."
+npm run test
+
+# Capture the exit code of the test command
+TEST_RESULT=$?
+
+if [ $TEST_RESULT -ne 0 ]; then
+  echo "Tests failed, aborting push."
+  exit 1
+fi
+
+echo "All tests passed, proceeding with push."
+exit 0
