@@ -1,11 +1,11 @@
 import { render } from "@testing-library/react";
 import ContactPage from "../page";
 
-const NAME = "Name and Surname"
-const EMAIL = "Email Address"
-const PHONE = "Phone Number (Optional)"
-const MESSAGE = "Message"
-const SEND = "Send"
+const NAME = "Name and Surname";
+const EMAIL = "Email Address";
+const PHONE = "Phone Number (Optional)";
+const MESSAGE = "Message";
+const SEND = "Send";
 
 describe("Contact Page", () => {
     it("should render the contact page texts properly", () => {
