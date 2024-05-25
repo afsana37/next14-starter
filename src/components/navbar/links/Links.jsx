@@ -31,6 +31,11 @@ const Links = ({session}) => {
   // const session = true;
   // const isAdmin = true;
 
+  // TODO: Implement the handle logout
+  const handleLogout = () => {
+    console.log("Logout clicked")
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.links}>
