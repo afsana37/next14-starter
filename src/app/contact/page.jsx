@@ -19,7 +19,7 @@ const ContactPage = () => {
   return (
     <div className={styles.container}>
       <div className={styles.imgContainer}>
-        <Image src="/contact.png" alt="" fill className={styles.img} />
+        <Image src="/next14-starter/contact.png" alt="" fill className={styles.img} />
       </div>
       <div className={styles.formContainer}>
         {/* <HydrationTestNoSSR/> */}
