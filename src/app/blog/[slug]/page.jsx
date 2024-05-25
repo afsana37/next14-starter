@@ -1,42 +1,70 @@
-import Image from "next/image"
-import styles from "./singlePost.module.css"
+// src/app/blog/[slug]/page.jsx
 
-const SinglePostPage = () => {
-    return (
-        <div className={styles.container}>
-            <div className={styles.imgContainer}>
-            <Image 
-                src="https://images.pexels.com/photos/1907785/pexels-photo-1907785.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" 
-                alt=""
-                fill 
-                className={styles.img}
-            />
-            </div>
-           <div className={styles.textContainer}>
-                <h1 className={styles.title}>Title</h1>
-                <div className={styles.detail}>
-                <Image 
-                    className={styles.avatar}
-                    src="https://images.pexels.com/photos/1907785/pexels-photo-1907785.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" 
-                    alt="" 
-                    width={50}
-                    height={50}
-                />
-                    <div className={styles.detailText}>
-                        <span className={styles.detailTitle}>Author</span>
-                        <span className={styles.detailValue}>Afsana Abida</span>
-                    </div>
-                    <div className={styles.detailText}>
-                        <span className={styles.detailTitle}>Published</span>
-                        <span className={styles.detailValue}>01.01.24</span>
-                    </div>
-                </div>
-                <div className={styles.content}>
-                    Books on the bookshelf.
-                </div>
-           </div> 
+import Image from "next/image";
+import styles from "./singlePost.module.css";
+import { getAllBlogSlugs, getBlogData } from '../../../lib/blog'; // Adjust the path as necessary
+
+const SinglePostPage = ({ blogData }) => {
+  return (
+    <div className={styles.container}>
+      <div className={styles.imgContainer}>
+        <Image 
+          src={blogData.image} 
+          alt=""
+          fill 
+          className={styles.img}
+        />
+      </div>
+      <div className={styles.textContainer}>
+        <h1 className={styles.title}>{blogData.title}</h1>
+        <div className={styles.detail}>
+          <Image 
+            className={styles.avatar}
+            src={blogData.authorImage} 
+            alt="" 
+            width={50}
+            height={50}
+          />
+          <div className={styles.detailText}>
+            <span className={styles.detailTitle}>Author</span>
+            <span className={styles.detailValue}>{blogData.author}</span>
+          </div>
+          <div className={styles.detailText}>
+            <span className={styles.detailTitle}>Published</span>
+            <span className={styles.detailValue}>{blogData.publishedDate}</span>
+          </div>
         </div>
-    )
+        <div className={styles.content}>
+          {blogData.content}
+        </div>
+      </div> 
+    </div>
+  );
+};
+
+// Generate static paths for all blog slugs
+export async function generateStaticParams() {
+  const slugs = getAllBlogSlugs();
+  return slugs.map(slug => ({ slug }));
 }
 
-export default SinglePostPage
+// Fetch data for a specific blog post
+export async function fetchBlogData(slug) {
+  const blogData = await getBlogData(slug);
+  return blogData;
+}
+
+// Use the `fetchBlogData` function in the page component to get data
+export async function generateMetadata({ params }) {
+  const blogData = await fetchBlogData(params.slug);
+  return {
+    title: blogData.title,
+    description: blogData.content.substring(0, 160), // Example: first 160 characters of content
+  };
+}
+
+// Load blog data
+export default async function Page({ params }) {
+  const blogData = await fetchBlogData(params.slug);
+  return <SinglePostPage blogData={blogData} />;
+}
